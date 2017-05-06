@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:HttpGzipPlayground"
+	x:Class="HttpGzipPlayground.HttpGzipPlaygroundPage">
+	<ScrollView
+		Padding="25">
+		<StackLayout
+			Orientation="Vertical">
+			<StackLayout
+				Orientation="Horizontal">
+				<Label
+					Text="Use ModernHttpClient"
+					VerticalTextAlignment="Center" />
+				<Switch
+					IsToggled="{Binding ShouldUseModernHttpClient}" />
+			</StackLayout>
+
+			<Button
+				Text="Send Request"
+				Command="{Binding SendHttpRequestCmd}" />
+			<Label
+				Text="{Binding HttpResponse}" />
+		</StackLayout>
+	</ScrollView>
+</ContentPage>
