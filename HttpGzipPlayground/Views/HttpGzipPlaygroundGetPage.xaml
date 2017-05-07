@@ -8,6 +8,10 @@
 		Padding="25">
 		<StackLayout
 			Orientation="Vertical">
+			<Label
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				Text="Get compressed data" />
 			<StackLayout
 				Orientation="Horizontal">
 				<Label

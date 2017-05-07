@@ -42,7 +42,13 @@ namespace HttpGzipPlayground
 
 		public BaseViewModel()
 		{
-			httpClient = new HttpClient();
+			var httpHandler = new HttpClientHandler
+			{
+				AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+			};
+
+			httpClient = new HttpClient(httpHandler);
+
 			InitHttpClient(httpClient);
 
 			modernHttpClient = new HttpClient(new NativeMessageHandler());

@@ -6,7 +6,10 @@
 	<StackLayout
 		Padding="25"
 		Orientation="Vertical">
-		<Label Text="In this case both HttpClients working as expected." />
+		<Label
+			FontAttributes="Bold"
+			HorizontalTextAlignment="Center"
+			Text="POST compressed data" />
 		<StackLayout
 				Orientation="Horizontal">
 				<Label
