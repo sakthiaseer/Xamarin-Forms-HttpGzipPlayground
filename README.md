@@ -3,4 +3,4 @@
 
 ## Result:
 
-<img src="https://github.com/yuv4ik/Xamarin-Forms-HttpGzipPlayground/blob/master/screenshots/GET.png" width="300">    <img src="https://github.com/yuv4ik/Xamarin-Forms-HttpGzipPlayground/blob/master/screenshots/POST.png" width="300">
+<img src="https://github.com/yuv4ik/Xamarin-Forms-HttpGzipPlayground/blob/master/screenshots/GET.png" width="300">    <img src="https://github.com/yuv4ik/Xamarin-Forms-HttpGzipPlayground/blob/master/screenshots/Post.png" width="300">
