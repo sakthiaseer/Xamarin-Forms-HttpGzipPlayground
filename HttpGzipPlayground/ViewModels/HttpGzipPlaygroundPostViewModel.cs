@@ -21,45 +21,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-using System.Net.Http;
+using System.Collections.Generic;
 using System.Windows.Input;
-using ModernHttpClient;
-using PropertyChanged;
 using Xamarin.Forms;
 
 namespace HttpGzipPlayground
 {
-	[ImplementPropertyChanged]
-	public class HttpGzipPlaygrondViewModel
+	public class HttpGzipPlaygroundPostViewModel : BaseViewModel
 	{
-		public string HttpResponse { get; set; }
+		public ICommand PostHttpRequestCmd { get; }
 
-		public ICommand SendHttpRequestCmd { get; }
+		protected override string apiEndPoint => "http://localhost:5000/values/upload";
 
-		public bool ShouldUseModernHttpClient { get; set; }
-
-		private HttpClient httpClient { get; }
-		private HttpClient modernHttpClient { get; }
-
-		private static string url = "http://localhost:5000/values";
-
-		public HttpGzipPlaygrondViewModel()
+		public HttpGzipPlaygroundPostViewModel()
 		{
-			httpClient = new HttpClient();
-			httpClient.DefaultRequestHeaders.Remove("Accept-Encoding");
-			httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-
-			modernHttpClient = new HttpClient(new NativeMessageHandler());
-			modernHttpClient.DefaultRequestHeaders.Remove("Accept-Encoding");
-			modernHttpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
-
-			SendHttpRequestCmd = new Command(async () =>
+			PostHttpRequestCmd = new Command(async () =>
 			{
+				var jsonContent = new JsonContent(new List<string> { "a", "b", "c", "d", "e", "f" });
 				HttpResponse = string.Empty;
-				HttpResponse = await (ShouldUseModernHttpClient ?
-					modernHttpClient.GetStringAsync(url) :
-					  httpClient.GetStringAsync(url));
+				var response = await Execute(() => ShouldUseModernHttpClient ?
+													  modernHttpClient.PostAsync(apiEndPoint, jsonContent) :
+																   httpClient.PostAsync(apiEndPoint, jsonContent));
+				if (response == null)
+					return;
+				
+				HttpResponse = await response.Content.ReadAsStringAsync();
 			});
 		}
 	}

@@ -21,32 +21,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System;
+using System.Collections.Generic;
+
 using Xamarin.Forms;
 
 namespace HttpGzipPlayground
 {
-	public partial class App : Application
+	public partial class DashboardPage : TabbedPage
 	{
-		public App()
+		public DashboardPage()
 		{
 			InitializeComponent();
-
-			MainPage = new DashboardPage();
-		}
-
-		protected override void OnStart()
-		{
-			// Handle when your app starts
-		}
-
-		protected override void OnSleep()
-		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
 		}
 	}
 }

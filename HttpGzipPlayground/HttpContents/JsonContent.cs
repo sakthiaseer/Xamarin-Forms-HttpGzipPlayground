@@ -21,32 +21,45 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using Xamarin.Forms;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace HttpGzipPlayground
 {
-	public partial class App : Application
+	public class JsonContent : HttpContent
 	{
-		public App()
-		{
-			InitializeComponent();
+		private JsonSerializer serializer { get; }
+		private object value { get; }
 
-			MainPage = new DashboardPage();
+		public JsonContent(object value)
+		{
+			this.serializer = new JsonSerializer();
+			this.value = value;
+			Headers.ContentType = new MediaTypeHeaderValue("application/json");
+			Headers.ContentEncoding.Add("gzip");
 		}
 
-		protected override void OnStart()
+		protected override bool TryComputeLength(out long length)
 		{
-			// Handle when your app starts
+			length = -1;
+			return false;
 		}
 
-		protected override void OnSleep()
+		protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
 		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
+			return Task.Factory.StartNew(() =>
+			{
+				using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
+				using (var writer = new StreamWriter(gzip))
+				{
+					serializer.Serialize(writer, value);
+				}
+			});
 		}
 	}
 }

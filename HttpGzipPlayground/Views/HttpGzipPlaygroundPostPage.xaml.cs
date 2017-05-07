@@ -21,16 +21,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System;
+using System.Collections.Generic;
+
 using Xamarin.Forms;
 
 namespace HttpGzipPlayground
 {
-	public partial class HttpGzipPlaygroundPage : ContentPage
+	public partial class HttpGzipPlaygroundPostPage : ContentPage
 	{
-		public HttpGzipPlaygroundPage()
+		public HttpGzipPlaygroundPostPage()
 		{
 			InitializeComponent();
-			this.BindingContext = new HttpGzipPlaygrondViewModel();
+			this.BindingContext = new HttpGzipPlaygroundPostViewModel();
 		}
 	}
 }

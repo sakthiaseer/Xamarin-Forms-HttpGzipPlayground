@@ -21,32 +21,55 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using Xamarin.Forms;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using ModernHttpClient;
+using PropertyChanged;
 
 namespace HttpGzipPlayground
 {
-	public partial class App : Application
+	[ImplementPropertyChanged]
+	public abstract class BaseViewModel
 	{
-		public App()
-		{
-			InitializeComponent();
+		public string HttpResponse { get; set; }
 
-			MainPage = new DashboardPage();
+		public bool ShouldUseModernHttpClient { get; set; }
+
+		protected HttpClient httpClient { get; }
+		protected HttpClient modernHttpClient { get; }
+		protected abstract string apiEndPoint { get; }
+
+		public BaseViewModel()
+		{
+			httpClient = new HttpClient();
+			InitHttpClient(httpClient);
+
+			modernHttpClient = new HttpClient(new NativeMessageHandler());
+			InitHttpClient(modernHttpClient);
 		}
 
-		protected override void OnStart()
+		/// <summary>
+		/// <para>Set necessary headers.</para>
+		/// </summary>
+		/// <param name="client">Client.</param>
+		private void InitHttpClient(HttpClient client)
 		{
-			// Handle when your app starts
+			client.DefaultRequestHeaders.Remove("Accept-Encoding");
+			client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip");
 		}
 
-		protected override void OnSleep()
+		protected async Task<T> Execute<T>(Func<Task<T>> task)
 		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
+			try
+			{
+				return await task();
+			}
+			catch
+			{
+				await App.Current.MainPage.DisplayAlert(string.Empty, "Please start the WebApi project.", "OK");
+				return default(T);
+			}
 		}
 	}
 }

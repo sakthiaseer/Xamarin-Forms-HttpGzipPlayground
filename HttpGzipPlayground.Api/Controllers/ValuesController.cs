@@ -10,6 +10,12 @@ namespace HttpGzipPlayground.Api.Controllers
     {
         public JsonResult Index() => new JsonResult(GenerateDummyData());
 
+        [HttpPost]
+        public IActionResult Upload([FromBody] List<string> data)
+        {
+            return Ok($"Received: {data.Count}");
+        }
+
         private List<Dummy> GenerateDummyData()
         {
             var result = new List<Dummy>();

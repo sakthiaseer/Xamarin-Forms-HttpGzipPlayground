@@ -21,32 +21,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HttpGzipPlayground
 {
-	public partial class App : Application
+	public class HttpGzipPlaygroundGetViewModel : BaseViewModel
 	{
-		public App()
-		{
-			InitializeComponent();
+		public ICommand SendHttpRequestCmd { get; }
 
-			MainPage = new DashboardPage();
-		}
+		protected override string apiEndPoint => "http://localhost:5000/values";
 
-		protected override void OnStart()
+		public HttpGzipPlaygroundGetViewModel()
 		{
-			// Handle when your app starts
-		}
-
-		protected override void OnSleep()
-		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
+			SendHttpRequestCmd = new Command(async () =>
+			{
+				HttpResponse = string.Empty;
+				HttpResponse = await Execute(() => ShouldUseModernHttpClient ?
+									modernHttpClient.GetStringAsync(apiEndPoint) :
+											 httpClient.GetStringAsync(apiEndPoint));
+			});
 		}
 	}
 }

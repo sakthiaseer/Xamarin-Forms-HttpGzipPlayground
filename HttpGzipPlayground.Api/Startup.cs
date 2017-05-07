@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ZNetCS.AspNetCore.Compression.DependencyInjection;
 
 namespace HttpGzipPlayground.Api
 {
@@ -32,8 +32,7 @@ namespace HttpGzipPlayground.Api
             services.AddMvc();
 
             // Add gzip compression
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
-            services.AddResponseCompression();
+            services.AddCompression();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +51,7 @@ namespace HttpGzipPlayground.Api
                 app.UseExceptionHandler("/Home/Error");
             }
 
-           app.UseResponseCompression();
+            app.UseCompression();
 
             app.UseStaticFiles();
 

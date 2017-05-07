@@ -3,7 +3,7 @@
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:HttpGzipPlayground"
-	x:Class="HttpGzipPlayground.HttpGzipPlaygroundPage">
+	x:Class="HttpGzipPlayground.HttpGzipPlaygroundGetPage">
 	<ScrollView
 		Padding="25">
 		<StackLayout
@@ -18,7 +18,7 @@
 			</StackLayout>
 
 			<Button
-				Text="Send Request"
+				Text="GET"
 				Command="{Binding SendHttpRequestCmd}" />
 			<Label
 				Text="{Binding HttpResponse}" />
